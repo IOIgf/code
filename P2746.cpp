@@ -41,10 +41,6 @@ int main(){
 			tarjan(i);
 		}
 	}
-	if(cnt==1){
-		cout<<1<<endl<<0;
-		return 0;
-	}
 	for(int i=1;i<=n;i++){
 		for(auto v:g[i]){
 			if(w[i]!=w[v])rd[w[v]]++,cd[w[i]]++;
@@ -55,6 +51,6 @@ int main(){
 		if(rd[i]==0)ans1++;
 		if(cd[i]==0)ans2++;
 	}
-	cout<<ans1;
+	cout<<ans1<<endl<<max(ans1,ans2);
 	return 0;
 }
