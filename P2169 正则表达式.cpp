@@ -54,7 +54,7 @@ int main() {
 	for(int i=1; i<=m; i++) {
 		int u,v;
 		cin>>u>>v>>ww;
-		e[u].push_back(mk(v,ww));
+		e[u].push_back(mk(v,-ww));
 	}
 	for(int i=1;i<=n;i++){
 		if(!dfn[i]){
