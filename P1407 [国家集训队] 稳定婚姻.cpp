@@ -144,103 +144,61 @@ using std::map;
 using std::string;
 #define min(a,b) (a<b?a:b)
 #define max(a,b) (a>b?a:b)
-vector<int>e[N];
-int dfn[N],low[N],ins[N],idx,n,m,sz;
-int cnt[N];
-int k;
-int cntt;
-bool vis[100005];
-//stack<int>stk;
-//vector<vector<int> >scc;
-void dfs(int u,int f){
-	dfn[u]=low[u]=++idx;
-	int ch=0;
-	for(auto v:e[u]){
-        if(vis[v])continue;
-		if(!dfn[v]){
-			dfs(v,u);
-			ch++;
-			low[u]=min(low[u],low[v]);
-			if(low[v]>=dfn[u])cnt[u]=1;
-		}
-		else if(v!=f){
-			low[u]=min(low[u],dfn[v]);
-		}
-	}
-	if(f==0&&ch<=1)cnt[u]=0;
-	//sz+=cnt[u];
+int n,m;
+vector<int>g[N];
+int dfn[N];
+int low[N];
+int ins[N];
+int w[N];
+int idx,cnt;
+map<string,int>ys;
+stack<int>stk;
+string u,v;
+int cnnt=1;
+void tarjan(int u){
+    dfn[u]=low[u]=++idx;
+    ins[u]=1;
+    stk.push(u);
+    for(auto v:g[u]){
+        if(!dfn[v]){
+            tarjan(v);
+            low[u]=min(low[u],low[v]);
+        }
+        else if(ins[v])low[u]=min(low[u],dfn[v]);
+    }
+    if(dfn[u]==low[u]){
+        ++cnt;
+        while(1){
+            int v=stk.top();
+            stk.pop();
+            ins[v]=0;
+            w[v]=cnt;
+            if(v==u)break;
+        }
+    }
 }
 int main(){
-	cin>>n>>m>>k;
-	for(int i=1;i<=m;i++){
-		int u,v;
-		cin>>u>>v;
-		e[u].push_back(v);
-		e[v].push_back(u);
-	}
-	for(int i=1;i<=n;i++){
-		if(!dfn[i]){
-            if(i==1){
-                dfs(i,0);
-            }
-            else{
-                cout<<"Poor SOL!"<<'\n';
-                return 0;
-            }
-        }
-	}
-    if(k==1){
-        for(int i=1;i<=n;i++){
-            if(cnt[i]){
-                cout<<i<<'\n';
-                return 0;
-            }
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        cin>>u>>v;
+        ys[u]=i,ys[v]=i+n;
+        g[i].push_back(i+n);
+    }
+    cin>>m;
+    for(int i=1;i<=m;i++){
+        cin>>u>>v;
+        g[ys[v]].push_back(ys[u]);
+    }
+    for(int i=1;i<=2*n;i++){
+        if(!dfn[i]){
+            tarjan(i);
         }
     }
-	else if(k==2){
-        for(int i=1;i<=n;i++){
-            memset(dfn,0,sizeof(dfn));
-            memset(low,0,sizeof(low));
-            memset(cnt,0,sizeof(cnt));
-            idx=0;
-            vis[i]=1;
-            if(!vis[1]){
-                dfs(1,0);
-            }
-            else dfs(2,0);
-            for(int j=1;j<=n;j++){
-                if(cnt[j]){
-                    cout<<j<<" "<<i<<'\n';
-                    return 0;
-                }
-            }
-            vis[i]=0;
+    for(int i=1;i<=n;i++){
+        if(w[i]!=w[i+n]){
+            cout<<"Safe"<<'\n';
         }
+        else cout<<"Unsafe"<<'\n';
     }
-    else if(k==3){
-        
-        for(int i=1;i<=n;i++){
-            vis[i]=1;
-            for(int k=i+1;k<=n;k++){
-                memset(dfn,0,sizeof(dfn));
-                memset(low,0,sizeof(low));
-                memset(cnt,0,sizeof(cnt));
-                idx=0;
-                vis[k]=1;
-                int s=1;
-                while(s==i||s==k)s++;
-                dfs(s,0);
-                for(int j=1;j<=n;j++){
-                    if(cnt[j]){
-                        cout<<j<<" "<<i<<" "<<k<<'\n';
-                        return 0;
-                    }
-                }
-                vis[k]=0;
-            }
-            vis[i]=0;
-        }
-    }
-    cout<<"How oversuspicious you are, SOL!"<<'\n';
 	return 0;
 }

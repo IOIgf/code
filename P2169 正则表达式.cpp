@@ -6,7 +6,7 @@ vector<int>e[N];
 int dfn[N],low[N],ins[N],idx,n,m,ans;
 stack<int>stk;
 int w[N],vs[N];
-int cnt,scc[N],in[N],ww[N]vvs[N];
+int cnt,scc[N],in[N],ww[N];
 vector<int>g[N];
 int s,p;
 bool vis[N];
