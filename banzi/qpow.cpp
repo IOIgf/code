@@ -1,5 +1,11 @@
+/*
+ * @Author: Milk_Dragon 
+ * @Date: 2026-07-16 16:13:49 
+ * @Last Modified by: Milk_Dragon
+ * @Last Modified time: 2026-07-16 17:27:36
+ */
 #include<bits/stdc++.h>
-#define int long long
+#define int long 
 using namespace std;
 int a,b,p;
 int qpow(int a,int b){
