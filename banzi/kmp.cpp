@@ -36,5 +36,4 @@ int main(){
     for(auto v:ans)cout<<v<<endl;
     for(auto v:border)cout<<v<<" ";
     return 0;
-    
 }
